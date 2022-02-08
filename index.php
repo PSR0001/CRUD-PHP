@@ -64,6 +64,36 @@ $(document).ready( function () {
     <title>PHP-CRUD-Create-Repeat-Update-Delete</title>
   </head>
   <body>
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+      Launch static backdrop modal
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="editModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editModalLevel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editModalLevel">Edit Your Note</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            ...
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Understood</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
       <div class="container-fluid">
         <a class="navbar-brand" href="#"
@@ -129,9 +159,9 @@ if ($insert){
         <button type="submit" class="btn btn-primary">Add Note</button>
       </form>
     </div>
-    <div class="container">
+    <div class="container my-3">
 
-       <table class="table" id="myTable">
+       <table class="table my-3 " id="myTable">
          <thead>
            <tr>
              <th scope="col">Sl.No</th>
@@ -150,13 +180,15 @@ if ($insert){
                  <th scope='row'>".$SL."</th>
                  <td>".$note['title']."</td>
                  <td>".$note['description']."</td>
-                 <td> Actions </td>
+                 <td><a class='edit' href='/edit'>Edit</a>  <a class='delete' href='/delete'>delete</a> </td>
                </tr>";
                $SL=$SL+1;
               // echo $note['SL.NO'].' hello '.$note['title'].' Hi '.$note['description'].' . <br>';
 
             }
             ?>
+
+
          </tbody>
        </table>
     </div>
