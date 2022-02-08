@@ -56,12 +56,16 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
 <link rel="stylesheet" href="//cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css">
 <script src="//cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
 
-<script>
-$(document).ready( function () {
-  $('#myTable').DataTable();
-} );
-</script>
+
+
     <title>PHP-CRUD-Create-Repeat-Update-Delete</title>
+
+
+
+
+
+
+
   </head>
   <body>
 
@@ -79,7 +83,7 @@ $(document).ready( function () {
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            ...
+
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -180,7 +184,7 @@ if ($insert){
                  <th scope='row'>".$SL."</th>
                  <td>".$note['title']."</td>
                  <td>".$note['description']."</td>
-                 <td><a class='edit' href='/edit'>Edit</a>  <a class='delete' href='/delete'>delete</a> </td>
+                 <td><button class='edit btn btn-sm btn-primary'>Edit</button>  <button class='delete btn btn-sm btn-primary' >delete</button> </td>
                </tr>";
                $SL=$SL+1;
               // echo $note['SL.NO'].' hello '.$note['title'].' Hi '.$note['description'].' . <br>';
@@ -198,5 +202,23 @@ if ($insert){
       integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
       crossorigin="anonymous"
     ></script>
+
+
+    <script>
+    $(document).ready( function () {
+      $('#myTable').DataTable();
+    } );
+  </script>
+  <script>
+edits = document.getElementsByClassName('edit')
+Array.from(edits).forEach((element) => {
+element.addEventListener('click',(e)=>{
+  // console.log('edit',e)
+  
+})
+});
+
+
+</script>
   </body>
 </html>
