@@ -52,7 +52,14 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
       crossorigin="anonymous"
     />
+<link rel="stylesheet" href="//cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css">
+<script src="//cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
 
+<script>
+$(document).ready( function () {
+  $('#myTable').DataTable();
+} );
+</script>
     <title>PHP-CRUD-Create-Repeat-Update-Delete</title>
   </head>
   <body>
