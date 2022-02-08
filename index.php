@@ -70,9 +70,9 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
   <body>
 
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
       Launch static backdrop modal
-    </button>
+    </button> -->
 
     <!-- Modal -->
     <div class="modal fade" id="editModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editModalLevel" aria-hidden="true">
@@ -214,7 +214,12 @@ edits = document.getElementsByClassName('edit')
 Array.from(edits).forEach((element) => {
 element.addEventListener('click',(e)=>{
   // console.log('edit',e)
-  
+  tr = e.target.parentNode.parentNode;
+  title = tr.getElementsByTagName("td")[0].innerText;
+  description  = tr.getElementsByTagName("td")[1].innerText;
+
+  console.log(title, description)
+  ('#editmodal').modal('toggle')
 })
 });
 
