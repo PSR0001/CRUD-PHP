@@ -1,5 +1,6 @@
 <?php
 //INSERT INTO `notes` (`SL.NO`, `title`, `description`, `DT`) VALUES (NULL, 'he he ', 'nice boi', current_timestamp());
+$insert = false;
 // Connecting to Database
 $serverName = "localhost";
 $userName = "root";
@@ -17,6 +18,22 @@ if ($connect) {
     echo 'Error !!';
     echo mysqli_connect_error($connect);
 }
+
+//submit form data
+if($_SERVER['REQUEST_METHOD']=="POST"){
+    $title = $_POST["title"];
+    $description = $_POST["des"];
+
+    $sql = "INSERT INTO `notes` (`SL.NO`, `title`, `description`, `DT`) VALUES (NULL, '$title', '$description', current_timestamp())";
+    $result = mysqli_query($connect,$sql);
+
+    if ($result) {
+      $insert = true;
+    }else{
+      echo 'Error'.$mysqli_error($connect);
+    }
+}
+
 
  ?>
 
@@ -79,12 +96,20 @@ if ($connect) {
         </div>
       </div>
     </nav>
+<?php
+if ($insert){
+  echo '<div class="alert alert-primary alert-dismissible fade show" role="alert">
+  <strong>Success ! </strong> Your note has been inserted Sucessfully !!
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+     </div>';
+}
 
+?>
     <!-- form -->
 
     <div class="container my-3">
       <h2><strong>Add a Note</strong></h2>
-      <form action="/CRUD-APP" method="post">
+      <form action="index.php" method="post">
         <div class="mb-3">
           <label for="exampleInputPassword1" class="form-label">Title</label>
           <input type="text" class="form-control" id="title" name="title"/>
