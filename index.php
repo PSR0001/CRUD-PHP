@@ -1,4 +1,5 @@
 <?php
+//INSERT INTO `notes` (`SL.NO`, `title`, `description`, `DT`) VALUES (NULL, 'he he ', 'nice boi', current_timestamp());
 // Connecting to Database
 $serverName = "localhost";
 $userName = "root";
@@ -83,7 +84,7 @@ if ($connect) {
 
     <div class="container my-3">
       <h2><strong>Add a Note</strong></h2>
-      <form>
+      <form action="/CRUD-APP" method="post">
         <div class="mb-3">
           <label for="exampleInputPassword1" class="form-label">Title</label>
           <input type="text" class="form-control" id="title" name="title"/>
@@ -96,16 +97,35 @@ if ($connect) {
       </form>
     </div>
     <div class="container">
-      <?php
-       $sql = "SELECT * FROM `notes`";
-       $result = mysqli_query($connect,$sql);
 
-       while($note = mysqli_fetch_assoc($result)){
-         echo $note['SL.NO'].'hello'.$note['title'].'Hi'.$note['description'].'.';
-       }
+       <table class="table">
+         <thead>
+           <tr>
+             <th scope="col">Sl.No</th>
+             <th scope="col">Title</th>
+             <th scope="col">Description</th>
+             <th scope="col">Actions</th>
+           </tr>
+         </thead>
+         <tbody>
+           <?php
+            $sql = "SELECT * FROM `notes`";
+            $result = mysqli_query($connect,$sql);
+            $SL = 1;
+            while($note = mysqli_fetch_assoc($result)){
+              echo "<tr>
+                 <th scope='row'>".$SL."</th>
+                 <td>".$note['title']."</td>
+                 <td>".$note['description']."</td>
+                 <td> Actions </td>
+               </tr>";
+               $SL=$SL+1;
+              // echo $note['SL.NO'].' hello '.$note['title'].' Hi '.$note['description'].' . <br>';
 
-       ?>
-
+            }
+            ?>
+         </tbody>
+       </table>
     </div>
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script
