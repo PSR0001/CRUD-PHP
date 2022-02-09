@@ -36,7 +36,6 @@ It Actually improved Your skill about CRUD operations.
 
 ### Libraries
 - [Bootstrap](https://getbootstrap.com/docs/5.1/getting-started/introduction/)
-- 
 - [JQUERY](https://jquery.com/)
 
 ## **Languages Used**
