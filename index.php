@@ -1,6 +1,8 @@
 <?php
 //INSERT INTO `notes` (`SL.NO`, `title`, `description`, `DT`) VALUES (NULL, 'he he ', 'nice boi', current_timestamp());
 $insert = false;
+$update = false;
+$delete = false;
 // Connecting to Database
 $serverName = "localhost";
 $userName = "root";
@@ -19,23 +21,53 @@ if ($connect) {
     echo mysqli_connect_error($connect);
 }
 
-//submit form data
-if($_SERVER['REQUEST_METHOD']=="POST"){
-    $title = $_POST["title"];
-    $description = $_POST["des"];
+if(isset($_GET['delete'])){
+  $sno = $_GET['delete'];
 
-    $sql = "INSERT INTO `notes` (`SL.NO`, `title`, `description`, `DT`) VALUES (NULL, '$title', '$description', current_timestamp())";
-    $result = mysqli_query($connect,$sql);
+  $sql = "DELETE FROM `notes` WHERE `SL.NO`=$sno";
+  $result = mysqli_query($connect,$sql);
 
-    if ($result) {
-      $insert = true;
-    }else{
-      echo 'Error'.$mysqli_error($connect);
-    }
+  if ($result) {
+    $delete = true;
+  }else{
+    echo 'Error'.$mysqli_error($connect);
 }
 
 
- ?>
+}
+//submit form data
+if($_SERVER['REQUEST_METHOD']=="POST"){
+    if(isset($_POST['snoEdit'])){
+      //update the
+      $title = $_POST["titleEdit"];
+      $description = $_POST["descriptionEdit"];
+      $sno = $_POST["snoEdit"];
+
+      $sql = "UPDATE `notes` SET `title`='$title' , `description` = '$description' WHERE `notes`.`SL.NO` = $sno";
+      $result = mysqli_query($connect,$sql);
+
+      if ($result) {
+        $update = true;
+      }else{
+        echo 'Error'.$mysqli_error($connect);
+    }
+      // exit();
+    }
+    else{
+      $title = $_POST["title"];
+      $description = $_POST["des"];
+
+      $sql = "INSERT INTO `notes` (`SL.NO`, `title`, `description`, `DT`) VALUES (NULL, '$title', '$description', current_timestamp())";
+      $result = mysqli_query($connect,$sql);
+
+      if ($result) {
+        $insert = true;
+      }else{
+        echo 'Error'.$mysqli_error($connect);
+    }
+  }
+}
+?>
 
 
 <!DOCTYPE html>
@@ -56,21 +88,10 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
 <link rel="stylesheet" href="//cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css">
 <script src="//cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
 
-
-
     <title>PHP-CRUD-Create-Repeat-Update-Delete</title>
-
-
-
-
-
-
-
   </head>
   <body>
 
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Open modal for @mdo</button>
 
 <!-- Modal Note -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -83,6 +104,7 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
           <div class="modal-body">
             <!-- Submit the form -->
           <form action="index.php" method="post">
+            <input class="hidden" name="snoEdit" id="snoEdit">
               <div class="mb-3">
                 <label for="recipient-name" class="col-form-label">Title:</label>
                 <input type="text" id="titleEdit" name="titleEdit" class="form-control" id="recipient-name">
@@ -91,12 +113,13 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
                 <label for="message-text" class="col-form-label">Description:</label>
                 <textarea class="form-control" id="descriptionEdit" name="descriptionEdit"></textarea>
               </div>
-            </form>
+
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
           </div>
+                </form>
         </div>
       </div>
     </div>
@@ -148,13 +171,25 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
       </div>
     </nav>
 <?php
+if ($update){
+  echo '<div class="alert alert-primary alert-dismissible fade show" role="alert">
+  <strong>Success ! </strong> Your note has been updated Sucessfully !!
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+     </div>';
+}
+
 if ($insert){
   echo '<div class="alert alert-primary alert-dismissible fade show" role="alert">
   <strong>Success ! </strong> Your note has been inserted Sucessfully !!
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
      </div>';
 }
-
+if ($delete){
+  echo '<div class="alert alert-primary alert-dismissible fade show" role="alert">
+  <strong>Success ! </strong> Your note has been deleted Sucessfully !!
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+     </div>';
+}
 ?>
     <!-- form -->
 
@@ -193,7 +228,7 @@ if ($insert){
                  <th scope='row'>".$SL."</th>
                  <td>".$note['title']."</td>
                  <td>".$note['description']."</td>
-                 <td><button class='edit btn btn-sm btn-primary'>Edit</button>  <button class='delete btn btn-sm btn-primary' >delete</button> </td>
+                 <td><button class='edit btn btn-primary btn-sm' id=".$note['SL.NO'].">Edit</button>  <button id=".$note['SL.NO']." class='delete btn btn-sm btn-primary' >delete</button> </td>
                </tr>";
                $SL=$SL+1;
               // echo $note['SL.NO'].' hello '.$note['title'].' Hi '.$note['description'].' . <br>';
@@ -228,8 +263,26 @@ element.addEventListener('click',(e)=>{
   description  = tr.getElementsByTagName("td")[1].innerText;
 
   console.log(title, description)
-  myModal.toggle()
+  // myModal.toggle()
 
+  //set the modal form VALUES
+  descriptionEdit.value = description
+  titleEdit.value = title
+  snoEdit.value = e.target.id
+
+  $('#exampleModal').modal('toggle')
+})
+});
+
+
+deletes = document.getElementsByClassName('delete')
+Array.from(deletes ).forEach((element) => {
+element.addEventListener('click',(e)=>{
+
+  sno = e.target.id
+  if(confirm("Are you sure you want to delete this note !!")){
+    window.location=`index.php?delete=${sno}`
+  }
 })
 });
 
