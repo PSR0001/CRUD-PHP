@@ -37,6 +37,9 @@ It Actually improved Your skill about CRUD operations.
 ### Libraries
 - [Bootstrap](https://getbootstrap.com/docs/5.1/getting-started/introduction/)
 
+### Libraries
+- [JQUERY](https://jquery.com/)
+
 ## **Languages Used**
 
 -  <img align="left" alt="php" width="90px" src="images/php-logo.png" />
