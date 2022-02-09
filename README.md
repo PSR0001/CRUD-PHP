@@ -53,7 +53,7 @@ It Actually improved Your skill about CRUD operations.
 
 | SL.No                   | title              | Description                |
 | :---------------------- | :----------------- | :------------------------- |
-| 01 `Auto Incren=ment`   | `Enter Your Title` | **Required**. Your API key |
+| 01 `Auto Increment`   | `Enter Your Title` | **Required**. Your API key |
 
 
 
