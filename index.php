@@ -70,28 +70,37 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
   <body>
 
     <!-- Button trigger modal -->
-    <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-      Launch static backdrop modal
-    </button> -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Open modal for @mdo</button>
 
-    <!-- Modal -->
-    <div class="modal fade" id="editModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editModalLevel" aria-hidden="true">
+<!-- Modal Note -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="editModalLevel">Edit Your Note</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Update Note </h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-
+            <!-- Submit the form -->
+          <form action="index.php" method="post">
+              <div class="mb-3">
+                <label for="recipient-name" class="col-form-label">Title:</label>
+                <input type="text" id="titleEdit" name="titleEdit" class="form-control" id="recipient-name">
+              </div>
+              <div class="mb-3">
+                <label for="message-text" class="col-form-label">Description:</label>
+                <textarea class="form-control" id="descriptionEdit" name="descriptionEdit"></textarea>
+              </div>
+            </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Understood</button>
+            <button type="button" class="btn btn-primary">Submit</button>
           </div>
         </div>
       </div>
     </div>
+
 
 
 
@@ -219,7 +228,8 @@ element.addEventListener('click',(e)=>{
   description  = tr.getElementsByTagName("td")[1].innerText;
 
   console.log(title, description)
-  ('#editmodal').modal('toggle')
+  myModal.toggle()
+
 })
 });
 
