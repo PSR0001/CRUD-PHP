@@ -1,5 +1,4 @@
 <?php
-//INSERT INTO `notes` (`SL.NO`, `title`, `description`, `DT`) VALUES (NULL, 'he he ', 'nice boi', current_timestamp());
 $insert = false;
 $update = false;
 $delete = false;
@@ -137,10 +136,10 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
             <a class="nav-link active" aria-current="page" href="/">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="webpages/about.php">About</a>
+            <a class="nav-link" href="#">About</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="webpages/contact.php">Contact Us</a>
+            <a class="nav-link" href="#">Contact Us</a>
           </li>
         </ul>
         <form class="d-flex">
