@@ -1,71 +1,76 @@
+<!-- PHP-SERVER -->
+
 <?php
-$insert = false;
-$update = false;
-$delete = false;
-// Connecting to Database
-$serverName = "localhost";
-$userName = "root";
-$pass = "";
-$DB = "notes";
+  // global VAriable
+  $insert = false;
+  $update = false;
+  $delete = false;
 
-// Create a connection
-$connect = mysqli_connect($serverName, $userName, $pass,$DB);
+  // Connecting to Database
+  $serverName = "localhost";
+  $userName = "root";
+  $pass = "";
+  $DB = "notes";
 
-// Die if connection was not successfull
-if ($connect) {
-    // echo 'Database is connected !!';
-} else {
-    // echo alert-->
-    echo 'Error !!';
-    echo mysqli_connect_error($connect);
-}
+  // Create a connection
+  $connect = mysqli_connect($serverName, $userName, $pass,$DB);
 
-if(isset($_GET['delete'])){
-  $sno = $_GET['delete'];
+  // Die if connection was not successfull
+  if ($connect) {
+      // echo 'Database is connected !!';
+  } else {
+      // echo alert-->
+      echo 'Error !!';
+      echo mysqli_connect_error($connect);
+  }
 
-  $sql = "DELETE FROM `notes` WHERE `SL.NO`=$sno";
-  $result = mysqli_query($connect,$sql);
+  //delete a note
+  if(isset($_GET['delete'])){
+    $sno = $_GET['delete'];
 
-  if ($result) {
-    $delete = true;
-  }else{
-    echo 'Error'.$mysqli_error($connect);
-}
+    $sql = "DELETE FROM `notes` WHERE `SL.NO`=$sno";
+    $result = mysqli_query($connect,$sql);
 
-
-}
-//submit form data
-if($_SERVER['REQUEST_METHOD']=="POST"){
-    if(isset($_POST['snoEdit'])){
-      //update the
-      $title = $_POST["titleEdit"];
-      $description = $_POST["descriptionEdit"];
-      $sno = $_POST["snoEdit"];
-
-      $sql = "UPDATE `notes` SET `title`='$title' , `description` = '$description' WHERE `notes`.`SL.NO` = $sno";
-      $result = mysqli_query($connect,$sql);
-
-      if ($result) {
-        $update = true;
-      }else{
-        echo 'Error'.$mysqli_error($connect);
-    }
-      // exit();
+    if ($result) {
+      $delete = true;
     }
     else{
-      $title = $_POST["title"];
-      $description = $_POST["des"];
+      echo 'Error'.$mysqli_error($connect);
+  }
+  }
 
-      $sql = "INSERT INTO `notes` (`SL.NO`, `title`, `description`, `DT`) VALUES (NULL, '$title', '$description', current_timestamp())";
-      $result = mysqli_query($connect,$sql);
+  //submit form data
+  if($_SERVER['REQUEST_METHOD']=="POST"){
+      if(isset($_POST['snoEdit'])){
+        //update the
+        $title = $_POST["titleEdit"];
+        $description = $_POST["descriptionEdit"];
+        $sno = $_POST["snoEdit"];
 
-      if ($result) {
-        $insert = true;
-      }else{
-        echo 'Error'.$mysqli_error($connect);
+        $sql = "UPDATE `notes` SET `title`='$title' , `description` = '$description' WHERE `notes`.`SL.NO` = $sno";
+        $result = mysqli_query($connect,$sql);
+
+        if ($result) {
+          $update = true;
+        }else{
+          echo 'Error'.$mysqli_error($connect);
+      }
+        // exit();
+      }
+      else{
+        $title = $_POST["title"];
+        $description = $_POST["des"];
+
+        $sql = "INSERT INTO `notes` (`SL.NO`, `title`, `description`, `DT`) VALUES (NULL, '$title', '$description', current_timestamp())";
+        $result = mysqli_query($connect,$sql);
+
+        if ($result) {
+          $insert = true;
+        }else{
+          echo 'Error'.$mysqli_error($connect);
+      }
     }
   }
-}
 ?>
 
 
@@ -80,16 +85,19 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
+
+    <!-- JQUERY-CDN -->
   <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
     crossorigin="anonymous"></script>
+
+    <!-- link the table CSS -->
   <link rel="stylesheet" href="//cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css">
+  <!-- table script -->
   <script src="//cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
 
   <title>PHP-CRUD-Create-Repeat-Update-Delete</title>
 </head>
-
 <body>
-
 
   <!-- Modal Note -->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -122,7 +130,7 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
     </div>
   </div>
 
-
+  <!-- navigation bar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
       <a class="navbar-brand" href="#"><img src="images/php-logo.png" width="40px" alt="php" /></a>
@@ -149,6 +157,8 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
       </div>
     </div>
   </nav>
+
+  <!-- for alert php script -->
   <?php
 if ($update){
   echo '<div class="alert alert-primary alert-dismissible fade show" role="alert">
@@ -170,8 +180,8 @@ if ($delete){
      </div>';
 }
 ?>
-  <!-- form -->
 
+  <!-- form -->
   <div class="container my-3">
     <h2><strong>Add a Note</strong></h2>
     <form action="index.php" method="post">
@@ -222,13 +232,16 @@ if ($delete){
     crossorigin="anonymous">
   </script>
 
-// for 
+<!-- // for table JQUERY -->
   <script>
     $(document).ready(function () {
       $('#myTable').DataTable();
     });
   </script>
+
+<!-- // add and delete note script -->
   <script>
+    //edit a note
     edits = document.getElementsByClassName('edit')
     Array.from(edits).forEach((element) => {
       element.addEventListener('click', (e) => {
@@ -249,7 +262,7 @@ if ($delete){
       })
     });
 
-
+    //delete a note
     deletes = document.getElementsByClassName('delete')
     Array.from(deletes).forEach((element) => {
       element.addEventListener('click', (e) => {
@@ -266,3 +279,4 @@ if ($delete){
 </body>
 
 </html>
+
